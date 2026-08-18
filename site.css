@@ -179,16 +179,11 @@ p {
 
     overflow: hidden;
 
-    /*
-       HERO BACKGROUND
-       Changed from 1.jpg to off2.jpg
-    */
-
     background:
         linear-gradient(
             135deg,
-            rgba(11, 61, 46, .94),
-            rgba(23, 107, 77, .82)
+            rgba(11, 61, 46, .55),
+            rgba(23, 107, 77, .35)
         ),
         url("off2.jpg") center / cover no-repeat;
 }
