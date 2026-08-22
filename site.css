@@ -614,17 +614,31 @@ p {
 /* =========================================================
    ADVANCED GALLERY
 ========================================================= */
+/* =========================================================
+   PHOTO GALLERY
+========================================================= */
 
 .gallery-grid {
     display: grid;
 
-    grid-template-columns: repeat(12, 1fr);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
 
-    gap: 14px;
+    gap: 18px;
+
+    width: 100%;
 }
+
+
+/* =========================================================
+   GALLERY CARD
+========================================================= */
 
 .gallery-card {
     position: relative;
+
+    width: 100%;
+
+    margin: 0;
 
     overflow: hidden;
 
@@ -632,39 +646,67 @@ p {
 
     background: #eee;
 
-    min-height: 220px;
+    aspect-ratio: 4 / 5;
+
+    isolation: isolate;
 }
+
+
+/*
+   Larger featured cards
+*/
 
 .gallery-card:nth-child(1),
 .gallery-card:nth-child(6) {
-    grid-column: span 6;
+    grid-column: span 2;
+
+    aspect-ratio: 16 / 9;
 }
 
-.gallery-card:nth-child(2),
-.gallery-card:nth-child(3),
-.gallery-card:nth-child(4),
-.gallery-card:nth-child(5),
-.gallery-card:nth-child(7),
-.gallery-card:nth-child(8) {
-    grid-column: span 3;
-}
+
+/* =========================================================
+   IMAGE
+========================================================= */
 
 .gallery-card img {
+    display: block;
+
     width: 100%;
 
     height: 100%;
 
-    min-height: 220px;
-
     object-fit: cover;
+
+    object-position: center;
 
     transition:
         transform .45s ease;
 }
 
-.gallery-card:hover img {
-    transform: scale(1.05);
+
+/*
+   Prevent the images from becoming excessively cropped
+   on the larger featured cards.
+*/
+
+.gallery-card:nth-child(1) img,
+.gallery-card:nth-child(6) img {
+    object-position: center;
 }
+
+
+/* =========================================================
+   IMAGE HOVER
+========================================================= */
+
+.gallery-card:hover img {
+    transform: scale(1.04);
+}
+
+
+/* =========================================================
+   CAPTION
+========================================================= */
 
 .gallery-caption {
     position: absolute;
@@ -673,35 +715,228 @@ p {
     right: 0;
     bottom: 0;
 
-    padding:
-        35px 16px 14px;
+    z-index: 2;
+
+    padding: 50px 16px 15px;
 
     background:
         linear-gradient(
-            transparent,
-            rgba(0, 0, 0, .78)
+            to bottom,
+            transparent 0%,
+            rgba(0, 0, 0, .18) 25%,
+            rgba(0, 0, 0, .72) 100%
         );
 
     color: #fff;
 
-    font-size: 12px;
+    font-size: 15px;
+
+    line-height: 1.35;
 
     font-weight: 700;
+
+    text-shadow:
+        0 1px 3px rgba(0, 0, 0, .5);
 }
+
+
+/* =========================================================
+   IMAGE SOURCE
+========================================================= */
 
 .gallery-source {
     display: block;
 
-    margin-top: 3px;
+    margin-top: 5px;
 
     font-size: 10px;
 
+    line-height: 1.35;
+
     font-weight: 500;
 
-    opacity: .75;
+    opacity: .82;
 }
 
 
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1100px) {
+
+    .gallery-grid {
+        grid-template-columns:
+            repeat(3, minmax(0, 1fr));
+
+        gap: 16px;
+    }
+
+
+    /*
+       Featured images remain wider.
+    */
+
+    .gallery-card:nth-child(1),
+    .gallery-card:nth-child(6) {
+        grid-column: span 2;
+
+        aspect-ratio: 16 / 10;
+    }
+
+
+    .gallery-card {
+        aspect-ratio: 4 / 5;
+    }
+
+
+    .gallery-caption {
+        font-size: 14px;
+
+        padding:
+            45px 14px 13px;
+    }
+
+}
+
+
+/* =========================================================
+   SMALL TABLET / LARGE MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .gallery-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap: 14px;
+    }
+
+
+    /*
+       All cards become equal-width on smaller screens.
+       This prevents narrow/cut-off images.
+    */
+
+    .gallery-card,
+    .gallery-card:nth-child(1),
+    .gallery-card:nth-child(6) {
+        grid-column: span 1;
+
+        aspect-ratio: 4 / 5;
+    }
+
+
+    .gallery-card img,
+    .gallery-card:nth-child(1) img,
+    .gallery-card:nth-child(6) img {
+        object-fit: cover;
+
+        object-position: center;
+    }
+
+
+    .gallery-caption {
+        padding:
+            42px 12px 12px;
+
+        font-size: 13px;
+    }
+
+
+    .gallery-source {
+        font-size: 9px;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 520px) {
+
+    .gallery-grid {
+        grid-template-columns: 1fr;
+
+        gap: 16px;
+    }
+
+
+    /*
+       One large image per row on phones.
+       This gives the photos enough width to be properly seen.
+    */
+
+    .gallery-card,
+    .gallery-card:nth-child(1),
+    .gallery-card:nth-child(6) {
+        grid-column: span 1;
+
+        aspect-ratio: 16 / 11;
+
+        min-height: 0;
+    }
+
+
+    .gallery-card img,
+    .gallery-card:nth-child(1) img,
+    .gallery-card:nth-child(6) img {
+        width: 100%;
+
+        height: 100%;
+
+        object-fit: cover;
+
+        object-position: center;
+    }
+
+
+    .gallery-caption {
+        padding:
+            55px 14px 14px;
+
+        font-size: 14px;
+    }
+
+
+    .gallery-source {
+        margin-top: 4px;
+
+        font-size: 9px;
+    }
+
+}
+
+
+/* =========================================================
+   VERY SMALL PHONES
+========================================================= */
+
+@media (max-width: 380px) {
+
+    .gallery-grid {
+        gap: 12px;
+    }
+
+
+    .gallery-card,
+    .gallery-card:nth-child(1),
+    .gallery-card:nth-child(6) {
+        aspect-ratio: 4 / 3;
+    }
+
+
+    .gallery-caption {
+        padding:
+            45px 12px 12px;
+
+        font-size: 13px;
+    }
+
+}
 /* =========================================================
    SUPPORT
 ========================================================= */
